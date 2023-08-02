@@ -6,23 +6,28 @@ const base = "https://api-m.paypal.com";
 export async function createOrder() {
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;
+  const payload = {
+	intent: "CAPTURE",
+	purchase_units: [
+	  {
+		amount: {
+		  currency_code: "CAD",
+		  value: "38.24",
+		},
+	  },
+	],
+  };
+  // REMOVE
+  console.log( 'test1' );
+  console.log( JSON.stringify( payload ) );
+  // REMOVE
   const response = await fetch(url, {
     method: "post",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify({
-      intent: "CAPTURE",
-      purchase_units: [
-        {
-          amount: {
-            currency_code: "CAD",
-            value: "38.24",
-          },
-        },
-      ],
-    }),
+    body: JSON.stringify(payload),
   });
 
   return handleResponse(response);
